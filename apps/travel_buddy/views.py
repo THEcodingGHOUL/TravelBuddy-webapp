@@ -112,3 +112,7 @@ def logout(request):
     print request.session['id']
     del request.session['id']
     return redirect('/')
+
+@login_required
+def newsfeed(request): #Execution of syndcation
+    return render(request,"home/rss.html",{})
