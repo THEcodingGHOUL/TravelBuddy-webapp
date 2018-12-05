@@ -1,5 +1,5 @@
 """
-WSGI config for Travel_Buddy project.
+WSG config for Travel_Buddy project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
