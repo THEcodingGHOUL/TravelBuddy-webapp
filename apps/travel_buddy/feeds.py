@@ -4,7 +4,7 @@ from django.urls import reverse
 
 
 class Archive(Feed):
-    title = "Social Travelling"
+    title = "Science Feed"
     link = "/archive/"
     description = "Updates on new complaints on Dreamrea entry."
 

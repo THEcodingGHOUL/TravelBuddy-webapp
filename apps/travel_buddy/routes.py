@@ -3,7 +3,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index),
-    url(r'^newsfeed',views.newsfeeed),
+    url(r'^newsfeed',views.newsfeed),
     url(r'^register$', views.register),
     url(r'^login$', views.login),
     url(r'^travel$', views.travel),

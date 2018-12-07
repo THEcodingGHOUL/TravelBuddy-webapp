@@ -5,9 +5,12 @@ from .models import User, Travel
 # Create your views here.
 
 
-def index(request):
+# renders our index page.
+def index(request):        
     return render(request, 'travel_buddy/index.html')
 
+
+#register function 
 def register(request):
     if request.method == 'GET':
         return redirect ('/')
@@ -22,6 +25,10 @@ def register(request):
         request.session['id'] = newuser[1].id
         return redirect('/travel')
 
+
+
+
+# for login and validation of user.
 def login(request):
     if 'id' in request.session:
         return redirect('/travel')
@@ -40,6 +47,8 @@ def login(request):
             return redirect('/travel')
 
 
+
+# for showing personal as well as other's travel plans
 def travel(request):
     if 'id' not in request.session:
         return redirect ("/")
@@ -51,6 +60,9 @@ def travel(request):
     return render(request, 'travel_buddy/travelplan.html', context)
 
 
+
+
+# for rendering to create plan page.
 def addplan(request):
     if 'id' not in request.session:
         return redirect ("/")
@@ -60,6 +72,10 @@ def addplan(request):
         }
         return render(request, 'travel_buddy/addplan.html', context)
 
+
+
+
+# for adding travel information of a user.
 def createplan(request):
     if request.method != 'POST':
         return redirect ("/addplan")
@@ -71,6 +87,10 @@ def createplan(request):
             messages.error(request, message)
         return redirect('/addplan')
 
+
+
+
+# show details of a particular destination.
 def show(request, travel_id):
     try:
         travel= Travel.objects.get(id=travel_id)
@@ -84,6 +104,10 @@ def show(request, travel_id):
     }
     return render(request, 'travel_buddy/showdetail.html', context)
 
+
+
+
+# join other traveller's plan.
 def join(request, travel_id):
     if request.method == "GET":
         messages.error(request,"What trip?")
@@ -94,7 +118,9 @@ def join(request, travel_id):
         messages.error(request, joiner['errors'])
     return redirect('/travel')
 
-#
+
+
+#delete plan of the user
 def delete(request, id):
     try:
         target= Travel.objects.get(id=id)
@@ -103,8 +129,10 @@ def delete(request, id):
         return redirect('/travel')
     target.delete()
     return redirect('/travel')
-#
 
+
+
+# logout of the session
 def logout(request):
     if 'id' not in request.session:
         return redirect('/')
@@ -113,6 +141,8 @@ def logout(request):
     del request.session['id']
     return redirect('/')
 
-@login_required
+
+
+# for seeing newsfeed.
 def newsfeed(request): #Execution of syndcation
-    return render(request,"home/rss.html",{})
+    return render(request,"travel_buddy/rss.html",{})

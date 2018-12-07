@@ -7,19 +7,33 @@ from time import strptime
 Name_Regex = re.compile(r'^[A-Za-z ]+$')
 
 # Create your models here
+
 class userManager(models.Manager):
+
+     
+    # function respnsible for validating login.
     def validate (self, postData):
         errors = []
+
         if len(User.objects.filter(username = postData['username'])) > 0:
+
             errors.append("Username already exists")
+
         if postData['password'] != postData['confirm_password']:
+
             errors.append("Your passwords don't match")
+
         if len(postData['name']) < 2:
             errors.append("Name needs to be more than 1 letter")
+
         if not Name_Regex.match(postData['name']):
+
             errors.append("name can only be letters")
+
         if len(postData['password']) < 8:
+
             errors.append("Password needs to be more than 8 letters")
+
         if len(errors) == 0:
             #create the user
             newuser = User.objects.create(name= postData['name'], username= postData['username'], password= bcrypt.hashpw(postData['password'].encode(), bcrypt.gensalt()))
@@ -27,6 +41,8 @@ class userManager(models.Manager):
         else:
             return (False, errors)
 
+    
+    #function responsible for userlogin.
     def login(self, postData):
         errors = []
         if 'username' in postData and 'password' in postData:
@@ -37,7 +53,10 @@ class userManager(models.Manager):
                 print 50*('4')
                 errors.append("Sorry, please try logging in again")
                 return (False, errors)
+
+
         #password field/check
+
         pw_match = bcrypt.hashpw(postData['password'].encode(), user.password.encode())
         print 10*"3", user.password
         if pw_match == user.password:
@@ -47,6 +66,8 @@ class userManager(models.Manager):
             return (False, errors)
 
 
+
+# user model
 class User(models.Model):
     name = models.CharField(max_length=45)
     username = models.CharField(max_length=100)
@@ -54,6 +75,9 @@ class User(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = userManager()
+
+
+
 
 class travelManager(models.Manager):
     def travelval(self, postData, id):
@@ -80,6 +104,9 @@ class travelManager(models.Manager):
             print "Cannot input into Data"
             return (False, errors)
 
+
+
+
     def join(self, id, travel_id):
         if len(Travel.objects.filter(id=travel_id).filter(join__id=id))>0:
             return {'errors':'You already Joined this'}
@@ -89,6 +116,9 @@ class travelManager(models.Manager):
             plan.join.add(joiner)
             return {}
 
+
+
+# travel model
 
 class Travel(models.Model):
     destination = models.CharField(max_length=100)
