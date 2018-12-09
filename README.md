@@ -7,7 +7,7 @@
 
 ## link
 
-you can visit this website at :
+This project is hosted at :
 http://wanderlust.pythonanywhere.com/
 
 
