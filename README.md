@@ -7,7 +7,7 @@
 
 ## link
 
-you can visit our website at :
+you can visit this website at :
 http://wanderlust.pythonanywhere.com/
 
 
